@@ -33,7 +33,7 @@ export default class Game {
    * For initialising game objects and variables.
    */
   create() {
-    this.slotMachine = new SlotMachine(this.game, 5);
+    this.slotMachine = new SlotMachine(this.game, 5, 10);
   }
 
   /**
