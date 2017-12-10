@@ -30,7 +30,10 @@ export default class SlotMachine {
       );
     }
 
-    this.foreground = this.game.add.image(0, 0, 'slotmachine-foreground');
+    this.foreground = this.game.add.image(0, 0, C.SPR_FOREGROUND);
+
+    this.button = this.game.add.button(100, 100, C.SPR_BUTTON);
+    this.button.onInputUp.add(this.startSpin, this);
   }
 
   /**
