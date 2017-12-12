@@ -1,4 +1,5 @@
 import SlotMachine from './components/slot-machine';
+import * as C from './constants';
 
 /**
  * The entry point class for the slot machine game.
@@ -23,10 +24,10 @@ export default class Game {
    */
   preload() {
     /*
-    load reel symbol image
     load reel background image
     load slot machine foreground image
     */
+    this.game.load.spritesheet(C.SPR_SHEET, 'assets/sprites.png', 32, 32);
   }
 
   /**
