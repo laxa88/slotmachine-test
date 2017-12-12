@@ -7,20 +7,20 @@ export default class ReelIcon {
   /**
    * ReelIcon
    * @param {Phaser.Game} game
-   * @param {string} spriteKey
+   * @param {string} frameName
    * @param {number} x
    * @param {number} y
    */
-  constructor(game, spriteKey, x, y) {
+  constructor(game, frameName, x, y) {
     this.sprite = game.add.sprite(x, y, C.SPR_SHEET);
-    this.sprite.frameName = spriteKey;
+    this.sprite.frameName = frameName;
   }
 
   /**
    * setSprite
-   * @param {Phaser.Sprite} sprite
+   * @param {string} frameName
    */
-  setSprite(sprite) {
-    this.sprite = sprite;
+  setSprite(frameName) {
+    this.sprite.frameName = frameName;
   }
 }

@@ -87,6 +87,9 @@ export default class SlotReel {
 
           if (icon.sprite.y > this.bottomBound) {
             icon.sprite.y -= (C.ICON_SIZE * C.REEL_LENGTH);
+
+            const iconData = this.getNextIcon();
+            icon.setSprite(iconData.key);
           }
         }
       }
