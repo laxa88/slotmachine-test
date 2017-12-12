@@ -62,9 +62,17 @@ export default class SlotMachine {
    * startSpin
    */
   startSpin() {
+    let nextStopTime = C.REEL_STOP_DELAY;
+
     this.reels.forEach((reel) => {
       reel.startSpin();
       // TODO: play button click
+
+      this.game.time.events.add(nextStopTime, () => {
+        reel.stopSpin();
+      });
+
+      nextStopTime += C.REEL_STOP_DELAY;
     });
   }
 

@@ -131,6 +131,7 @@ export default class SlotReel {
       if position is above center, ease to center pos
       else, ease Symbol at index 2 to center pos
     */
+    this.state = C.REEL_STOPPING;
   }
 
   /**

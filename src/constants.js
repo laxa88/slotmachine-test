@@ -5,13 +5,13 @@ export const MACHINE_SPINNING = 'MACHINE_SPINNING';
 
 export const REEL_LENGTH = 5;
 export const REEL_SPEED = 500;
+export const REEL_STOP_DELAY = 500;
 export const REEL_IDLE = 'REEL_IDLE';
 export const REEL_SPINNING = 'REEL_SPINNING';
 export const REEL_STOPPING = 'REEL_STOPPING';
 
 export const SPR_FOREGROUND = 'slotmachine-foreground';
 export const SPR_BUTTON = 'button';
-
 export const SPR_SHEET = 'icons';
 
 export const ICON_DATA = [
