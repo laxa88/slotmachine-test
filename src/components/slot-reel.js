@@ -31,7 +31,8 @@ export default class SlotReel {
     // 3 visible, 1 buffer on top/bottom.
     this.iconPool = [];
     const totalReelHeight = C.REEL_LENGTH * C.ICON_SIZE;
-    let currY = this.centerY - (totalReelHeight / 2);
+    const startY = this.centerY - (totalReelHeight / 2);
+    let currY = startY;
 
     for (let i = 0; i < C.REEL_LENGTH; i++) {
       const iconData = this.getNextIcon();
@@ -43,7 +44,8 @@ export default class SlotReel {
       currY += C.ICON_SIZE;
     }
 
-    // This is the bound where icons will be wrapped to the top.
+    // Set bounds where icons will be wrapped.
+    this.upperBound = startY;
     this.bottomBound = currY;
 
     /*
@@ -85,12 +87,7 @@ export default class SlotReel {
           const delta = this.game.time.physicsElapsed * C.REEL_SPEED;
           icon.sprite.y += delta;
 
-          if (icon.sprite.y > this.bottomBound) {
-            icon.sprite.y -= (C.ICON_SIZE * C.REEL_LENGTH);
-
-            const iconData = this.getNextIcon();
-            icon.setSprite(iconData.key);
-          }
+          this.updateIconWrap(icon);
         }
       }
       break;
@@ -132,6 +129,34 @@ export default class SlotReel {
       else, ease Symbol at index 2 to center pos
     */
     this.state = C.REEL_STOPPING;
+
+    this.iconTweeningCount = C.REEL_LENGTH;
+
+    for (let i = 0; i < C.REEL_LENGTH; i++) {
+      const currIndex = (i + this.reelIndex) % C.REEL_LENGTH;
+      const icon = this.iconPool[currIndex];
+
+      // For each icon that's still visible, tween to
+      // the next fixed icon position.
+      const nextSnapPosition = this.upperBound + (i * C.ICON_SIZE);
+      const tween = this.game.add.tween(icon.sprite);
+
+      tween.onComplete.add(() => {
+        this.iconTweeningCount--;
+
+        if (this.iconTweeningCount === 0) {
+          this.game.onReelStopped.dispatch(this);
+        }
+      });
+
+      tween
+        .to(
+          {y: nextSnapPosition},
+          500 + Math.random() * 50,
+          Phaser.Easing.Elastic.Out
+        )
+        .start();
+    }
   }
 
   /**
@@ -145,5 +170,18 @@ export default class SlotReel {
     this.reelIndex = (this.reelIndex + 1) % this.reelData.length;
     const iconData = this.reelData[this.reelIndex];
     return iconData;
+  }
+
+  /**
+   * Wraps the icon to the top if the position passes lower bound.
+   * @param {*} icon
+   */
+  updateIconWrap(icon) {
+    if (icon.sprite.y > this.bottomBound) {
+      icon.sprite.y -= (C.ICON_SIZE * C.REEL_LENGTH);
+
+      const iconData = this.getNextIcon();
+      icon.setSprite(iconData.key);
+    }
   }
 }

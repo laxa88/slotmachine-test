@@ -47,6 +47,10 @@ export default class SlotMachine {
     const buttonY = this.game.height - 32;
     this.button = this.game.add.button(buttonX, buttonY, C.SPR_BUTTON);
     this.button.onInputUp.add(this.startSpin, this);
+
+    // Add event to listen for reel stoppage
+    this.game.onReelStopped = new Phaser.Signal();
+    this.game.onReelStopped.add(this.onReelStopped, this);
   }
 
   /**
@@ -80,16 +84,13 @@ export default class SlotMachine {
     });
 
     this.state = C.MACHINE_SPINNING;
-
-    this.game.time.events.add(nextStopTime, () => {
-      this.state = C.MACHINE_IDLE;
-    });
+    this.spinningReelCount = this.reels.length;
   }
 
   /**
-   * reelStopped
+   * onReelStopped
    */
-  reelStopped() {
+  onReelStopped() {
     /*
     zoom in toward center, based on % of reels, e.g.
       1/3 reel stopped = 10% zoom
@@ -97,6 +98,12 @@ export default class SlotMachine {
       3/3 reel stopped = 30% zoom
     shake screen lol
     */
+
+    this.spinningReelCount--;
+
+    if (this.spinningReelCount === 0) {
+      this.state = C.MACHINE_IDLE;
+    }
   }
 
   /**
