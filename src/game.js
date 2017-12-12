@@ -27,7 +27,12 @@ export default class Game {
     load reel background image
     load slot machine foreground image
     */
-    this.game.load.spritesheet(C.SPR_SHEET, 'assets/sprites.png', 32, 32);
+    this.game.load.atlas(
+      C.SPR_SHEET,
+      'assets/sprites.png',
+      'assets/sprites.js',
+      Phaser.Loader.TEXTURE_ATLAS_JSON_HASH
+    );
   }
 
   /**
