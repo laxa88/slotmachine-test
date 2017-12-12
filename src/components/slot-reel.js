@@ -132,9 +132,19 @@ export default class SlotReel {
 
     this.iconTweeningCount = C.REEL_LENGTH;
 
+    // Icons in iconPool are sorted by index, not by Y-position.
+    // Sort the iconPool by Y-position so we can snap them
+    // to the next position.
+    const sortedIconPool = this.iconPool;
+
+    sortedIconPool.sort((a, b) => {
+      if (a.sprite.y < b.sprite.y) return -1;
+      if (a.sprite.y > b.sprite.y) return 1;
+      return 0;
+    });
+
     for (let i = 0; i < C.REEL_LENGTH; i++) {
-      const currIndex = (i + this.reelIndex) % C.REEL_LENGTH;
-      const icon = this.iconPool[currIndex];
+      const icon = sortedIconPool[i];
 
       // For each icon that's still visible, tween to
       // the next fixed icon position.
