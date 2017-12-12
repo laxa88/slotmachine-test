@@ -9,30 +9,43 @@ export default class SlotMachine {
    * SlotMachine
    * @param {Phaser.Game} game
    * @param {number} reelCount number of reels in this slot machine
-   * @param {number} reelLength number of icons per reel
+   * @param {number} iconCount number of icons per reel
    */
-  constructor(game, reelCount, reelLength) {
+  constructor(game, reelCount, iconCount) {
     this.game = game;
     this.reelCount = reelCount;
-    this.reelLength = reelLength;
+    this.iconCount = iconCount;
 
+    this.state = C.MACHINE_IDLE;
+
+    // Based on reelCount, equally space them out from center.
+    const reelX = this.game.width / 2;
+    const reelY = this.game.height / 2;
+    const totalReelWidth = this.reelCount * C.ICON_SIZE;
+    let currCenterX = reelX - (totalReelWidth / 2);
     this.reels = [];
     for (let i = 0; i < this.reelCount; i++) {
       const icons = [];
 
-      for (let j = 0; j < this.reelLength; j++) {
+      for (let j = 0; j < this.iconCount; j++) {
         const dataIndex = Math.floor(Math.random() * C.ICON_DATA.length);
         icons.push(C.ICON_DATA[dataIndex]);
       }
 
       this.reels.push(
-        new SlotReel(icons)
+        new SlotReel(this.game, icons, currCenterX, reelY)
       );
+
+      currCenterX += C.ICON_SIZE;
     }
 
+    // Cover the reels with a foreground image to hide the reels' edges.
     this.foreground = this.game.add.image(0, 0, C.SPR_FOREGROUND);
 
-    this.button = this.game.add.button(100, 100, C.SPR_BUTTON);
+    // Finally, add a button that allows the reels to be spun.
+    const buttonX = this.game.width - 32;
+    const buttonY = this.game.height - 32;
+    this.button = this.game.add.button(buttonX, buttonY, C.SPR_BUTTON);
     this.button.onInputUp.add(this.startSpin, this);
   }
 

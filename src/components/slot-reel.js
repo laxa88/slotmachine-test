@@ -1,3 +1,4 @@
+import ReelIcon from './reel-icon';
 import * as C from '../constants';
 
 /**
@@ -6,15 +7,36 @@ import * as C from '../constants';
 export default class SlotReel {
   /**
    * SlotReel
-   * @param {Object[]} icons
-   * @param {string} icons[].key the sprite key
-   * @param {number} icons[].value the icon's value
+   * @param {Phaser.Game} game
+   * @param {Object[]} iconDataList the list of icons for this reel
+   * @param {string} iconDataList[].key the sprite key
+   * @param {number} iconDataList[].value the icon's value
+   * @param {number} centerX
+   * @param {number} centerY
    */
-  constructor(icons) {
+  constructor(game, iconDataList, centerX, centerY) {
     this.state = C.REEL_IDLE;
 
-    // object pool for each visible symbol in the reel
-    this.imageSlots = [];
+    this.game = game;
+    this.iconDataList = iconDataList;
+    this.centerX = centerX;
+    this.centerY = centerY;
+
+    // Create object pool of five Symbols in the reel,
+    // 3 visible, 1 buffer on top/bottom.
+    this.iconSlots = [];
+    const totalReelHeight = 5 * C.ICON_SIZE;
+    let currCenterY = this.centerY - (totalReelHeight / 2);
+    for (let i = 0; i < 5; i++) {
+      const iconDataIndex = i % this.iconDataList.length;
+      const iconData = this.iconDataList[iconDataIndex];
+
+      this.iconSlots.push(
+        new ReelIcon(this.game, iconData.key, this.centerX, currCenterY)
+      );
+
+      currCenterY += C.ICON_SIZE;
+    }
 
     // full list of symbols that would appear when the reel is spun.
     this.reelData = [];
