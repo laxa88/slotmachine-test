@@ -62,6 +62,10 @@ export default class SlotMachine {
    * startSpin
    */
   startSpin() {
+    if (this.state != C.MACHINE_IDLE) {
+      return;
+    }
+
     let nextStopTime = C.REEL_STOP_DELAY;
 
     this.reels.forEach((reel) => {
@@ -73,6 +77,12 @@ export default class SlotMachine {
       });
 
       nextStopTime += C.REEL_STOP_DELAY;
+    });
+
+    this.state = C.MACHINE_SPINNING;
+
+    this.game.time.events.add(nextStopTime, () => {
+      this.state = C.MACHINE_IDLE;
     });
   }
 
