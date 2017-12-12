@@ -3,6 +3,8 @@ export const ICON_SIZE = 32;
 export const MACHINE_IDLE = 'MACHINE_IDLE';
 export const MACHINE_SPINNING = 'MACHINE_SPINNING';
 
+export const REEL_LENGTH = 5;
+export const REEL_SPEED = 500;
 export const REEL_IDLE = 'REEL_IDLE';
 export const REEL_SPINNING = 'REEL_SPINNING';
 export const REEL_STOPPING = 'REEL_STOPPING';

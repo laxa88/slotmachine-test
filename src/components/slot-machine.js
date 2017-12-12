@@ -62,11 +62,10 @@ export default class SlotMachine {
    * startSpin
    */
   startSpin() {
-    /*
-    for each reel
-      reel.startSpin()
-      audio: lever pull
-    */
+    this.reels.forEach((reel) => {
+      reel.startSpin();
+      // TODO: play button click
+    });
   }
 
   /**
