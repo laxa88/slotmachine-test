@@ -49,7 +49,10 @@ export default class SlotMachine {
     this.button.onInputUp.add(this.startSpin, this);
 
     // Add event to listen for reel stoppage
+    this.game.onReelStopping = new Phaser.Signal();
     this.game.onReelStopped = new Phaser.Signal();
+
+    this.game.onReelStopping.add(this.onReelStopping, this);
     this.game.onReelStopped.add(this.onReelStopped, this);
   }
 
@@ -74,7 +77,7 @@ export default class SlotMachine {
 
     this.reels.forEach((reel) => {
       reel.startSpin();
-      // TODO: play button click
+      // TODO: play button click audio
 
       this.game.time.events.add(nextStopTime, () => {
         reel.stopSpin();
@@ -85,24 +88,39 @@ export default class SlotMachine {
 
     this.state = C.MACHINE_SPINNING;
     this.spinningReelCount = this.reels.length;
+
+    // initial zoom in. camera will further zoom in on each
+    // reel stop, then finally zoom out to original scale once
+    // all reels have stopped.
+    this.reelZoom = C.REEL_ZOOM_START;
+    this.tweenZoomCamera(this.reelZoom, Phaser.Easing.Elastic.Out);
+  }
+
+  /**
+   * onReelStopping
+   */
+  onReelStopping() {
+    // For each reel that stops, we zoom in closer to
+    // the center, emphasising the result!
+    const delta = (C.REEL_ZOOM_END - 1.0) / this.reelCount;
+    this.reelZoom += delta;
+    this.tweenZoomCamera(this.reelZoom, Phaser.Easing.Elastic.Out);
   }
 
   /**
    * onReelStopped
    */
   onReelStopped() {
-    /*
-    zoom in toward center, based on % of reels, e.g.
-      1/3 reel stopped = 10% zoom
-      2/3 reel stopped = 20% zoom
-      3/3 reel stopped = 30% zoom
-    shake screen lol
-    */
-
     this.spinningReelCount--;
 
     if (this.spinningReelCount === 0) {
-      this.state = C.MACHINE_IDLE;
+      // revert to original zoom once done spinning
+      this.tweenZoomCamera(1.0, Phaser.Easing.Exponential.Out);
+
+      // allow respin once animation is complete
+      this.game.time.events.add(C.REEL_ZOOM_SPEED, () => {
+        this.state = C.MACHINE_IDLE;
+      });
     }
   }
 
@@ -114,5 +132,31 @@ export default class SlotMachine {
     get screen ratio
     compare against intended resolution ()
     */
+  }
+
+  /**
+   * tweenZoomCamera
+   * @param {number} scale
+   * @param {method} ease
+   */
+  tweenZoomCamera(scale, ease) {
+    const center = this.game.width / 2;
+    const offset = (scale - 1.0) * center;
+
+    this.game.add.tween(this.game.camera)
+      .to(
+        {x: offset, y: offset},
+        C.REEL_ZOOM_SPEED,
+        ease
+      )
+      .start();
+
+    this.game.add.tween(this.game.camera.scale)
+      .to(
+        {x: scale, y: scale},
+        C.REEL_ZOOM_SPEED,
+        ease
+      )
+      .start();
   }
 }

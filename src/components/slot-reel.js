@@ -167,6 +167,8 @@ export default class SlotReel {
         )
         .start();
     }
+
+    this.game.onReelStopping.dispatch(this);
   }
 
   /**
