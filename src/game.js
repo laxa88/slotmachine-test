@@ -16,6 +16,8 @@ export default class Game {
       update: this.update,
     });
 
+    this.game.antialias = false;
+
     this.slotMachine = null;
   }
 
@@ -33,6 +35,8 @@ export default class Game {
       'assets/sprites.js',
       Phaser.Loader.TEXTURE_ATLAS_JSON_HASH
     );
+
+    this.game.load.image('star', 'assets/star.png');
   }
 
   /**

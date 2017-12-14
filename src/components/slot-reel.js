@@ -48,14 +48,22 @@ export default class SlotReel {
     this.upperBound = startY;
     this.bottomBound = currY;
 
-    /*
-    init 5 Symbol (3 visible, 1 buffer on top/bottom)
-      if there are less Symbols than Database, reel will end up showing repeated visible Symbols, and that's okay.
-    init position of each Symbol
-    init symbolPool with first 7 symbols
-    init symbolDatabase to store each Symbol
-    init top and bottom position for looping Symbol
-    */
+    // Add emitter for particle effects
+    // const cx = this.centerX + (C.ICON_SIZE / 2);
+    // const cy = this.centerY + (C.ICON_SIZE / 2);
+    this.emitter = this.game.add.emitter(this.centerX, this.centerY, 10);
+    this.emitter.makeParticles('star');
+    this.emitter.particleDrag = new Phaser.Point(50, 50);
+    this.emitter.setXSpeed(-300, 300);
+    this.emitter.setYSpeed(-300, 300);
+    this.emitter.setAlpha(1.0, 0.0, 2000);
+    this.emitter.gravity = 800;
+    this.emitter.setScale(
+      1.0, 0.0,
+      1.0, 0.0,
+      2000,
+      Phaser.Easing.Circular.In
+    );
   }
 
   /**
@@ -109,13 +117,11 @@ export default class SlotReel {
    * startSpin
    */
   startSpin() {
-    /*
-    set state to SPINNING
-    particle: 1-time burst stars
-    event: zoom out to show all reels
-    audio: loop reeling sfx
-    */
     this.state = C.REEL_SPINNING;
+
+    this.emitter.start(true, 1000, null, 5);
+
+    // TODO add audio
   }
 
   /**
@@ -149,6 +155,7 @@ export default class SlotReel {
       // For each icon that's still visible, tween to
       // the next fixed icon position.
       const nextSnapPosition = this.upperBound + (i * C.ICON_SIZE);
+
       const tween = this.game.add.tween(icon.sprite);
 
       tween.onComplete.add(() => {
