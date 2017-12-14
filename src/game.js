@@ -16,8 +16,10 @@ export default class Game {
       update: this.update,
     });
 
+    // Arbitrarily disable antialias for the retro feel
     this.game.antialias = false;
 
+    // declare the variable here, to be initialised in create()
     this.slotMachine = null;
   }
 
@@ -25,10 +27,6 @@ export default class Game {
    * For preloading assets.
    */
   preload() {
-    /*
-    load reel background image
-    load slot machine foreground image
-    */
     this.game.load.atlas(
       C.SPR_SHEET,
       'assets/sprites.png',
@@ -36,6 +34,10 @@ export default class Game {
       Phaser.Loader.TEXTURE_ATLAS_JSON_HASH
     );
 
+    // TODO load reel background image
+    // TODO load slot machine foreground image
+
+    // For particle effects
     this.game.load.image('star', 'assets/star.png');
   }
 
