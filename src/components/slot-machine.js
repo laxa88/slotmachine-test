@@ -105,6 +105,8 @@ export default class SlotMachine {
     const delta = (C.REEL_ZOOM_END - 1.0) / this.reelCount;
     this.reelZoom += delta;
     this.tweenZoomCamera(this.reelZoom, Phaser.Easing.Elastic.Out);
+
+    this.game.camera.flash(0xffffff, 500);
   }
 
   /**
