@@ -10,11 +10,17 @@ export default class Game {
    */
   constructor() {
     // Init a Phaser game and link the lifecycle methods.
-    this.game = new Phaser.Game(400, 400, Phaser.AUTO, 'game', {
-      preload: this.preload,
-      create: this.create,
-      update: this.update,
-    });
+    this.game = new Phaser.Game(
+      window.innerWidth,
+      window.innerHeight,
+      Phaser.AUTO,
+      'game',
+      {
+        preload: this.preload,
+        create: this.create,
+        update: this.update,
+      }
+    );
 
     // Arbitrarily disable antialias for the retro feel
     this.game.antialias = false;

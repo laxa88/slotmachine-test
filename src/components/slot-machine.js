@@ -54,6 +54,9 @@ export default class SlotMachine {
 
     this.game.onReelStopping.add(this.onReelStopping, this);
     this.game.onReelStopped.add(this.onReelStopped, this);
+
+    // Add resize method
+    this.game.scale.setResizeCallback(this.onScreenResize, this);
   }
 
   /**
@@ -106,7 +109,7 @@ export default class SlotMachine {
     this.reelZoom += delta;
     this.tweenZoomCamera(this.reelZoom, Phaser.Easing.Elastic.Out);
 
-    this.game.camera.flash(0xffffff, 500);
+    this.game.camera.flash(0xffffff, 500, true);
   }
 
   /**
@@ -142,12 +145,14 @@ export default class SlotMachine {
    * @param {method} ease
    */
   tweenZoomCamera(scale, ease) {
-    const center = this.game.width / 2;
-    const offset = (scale - 1.0) * center;
+    const centerX = this.game.width / 2;
+    const centerY = this.game.height / 2;
+    const offsetX = (scale - 1.0) * centerX;
+    const offsetY = (scale - 1.0) * centerY;
 
     this.game.add.tween(this.game.camera)
       .to(
-        {x: offset, y: offset},
+        {x: offsetX, y: offsetY},
         C.REEL_ZOOM_SPEED,
         ease
       )
