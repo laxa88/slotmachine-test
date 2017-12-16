@@ -11,6 +11,7 @@
 - Handles responsiveness (screen resize).
 - Controls camera zooming.
 - Handles reel stop event from children `SlotReel`s.
+- Handles bgm and sfx.
 
 ## SlotReel
 
