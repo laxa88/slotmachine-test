@@ -18,6 +18,16 @@ export default class SlotMachine {
 
     this.state = C.MACHINE_IDLE;
 
+    // Init audio
+    this.bgm = this.game.add.audio('bgm');
+    this.bgm.loop = true;
+    this.bgm.play();
+
+    this.sfxDing = this.game.add.audio('ding');
+    this.sfxKaching = this.game.add.audio('kaching');
+    this.sfxReelSpin = this.game.add.audio('reel-spin');
+    this.sfxThump = this.game.add.audio('thump');
+
     // Based on reelCount, equally space them out from center.
     const reelX = this.game.width / 2;
     const reelY = this.game.height / 2;
@@ -76,6 +86,11 @@ export default class SlotMachine {
       return;
     }
 
+    this.sfxDing.play();
+
+    this.sfxReelSpin.loop = true;
+    this.sfxReelSpin.play();
+
     let nextStopTime = C.REEL_STOP_DELAY;
 
     this.reels.forEach((reel) => {
@@ -110,6 +125,8 @@ export default class SlotMachine {
     this.tweenZoomCamera(this.reelZoom, Phaser.Easing.Elastic.Out);
 
     this.game.camera.flash(0xffffff, 500, true);
+
+    this.sfxThump.play();
   }
 
   /**
@@ -119,6 +136,9 @@ export default class SlotMachine {
     this.spinningReelCount--;
 
     if (this.spinningReelCount === 0) {
+      this.sfxReelSpin.stop();
+      this.sfxKaching.play();
+
       // revert to original zoom once done spinning
       this.tweenZoomCamera(1.0, Phaser.Easing.Exponential.Out);
 

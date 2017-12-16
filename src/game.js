@@ -45,6 +45,13 @@ export default class Game {
 
     // For particle effects
     this.game.load.image('star', 'assets/star.png');
+
+    // Load audio files
+    this.game.load.audio('bgm', 'assets/bgm-ogg.ogg');
+    this.game.load.audio('ding', 'assets/ding-ogg.ogg');
+    this.game.load.audio('kaching', 'assets/kaching-ogg.ogg');
+    this.game.load.audio('reel-spin', 'assets/reel-spin-ogg.ogg');
+    this.game.load.audio('thump', 'assets/thump-ogg.ogg');
   }
 
   /**
