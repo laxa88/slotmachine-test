@@ -49,8 +49,6 @@ export default class SlotReel {
     this.bottomBound = currY;
 
     // Add emitter for particle effects
-    // const cx = this.centerX + (C.ICON_SIZE / 2);
-    // const cy = this.centerY + (C.ICON_SIZE / 2);
     this.emitter = this.game.add.emitter(this.centerX, this.centerY, 10);
     this.emitter.makeParticles('star');
     this.emitter.particleDrag = new Phaser.Point(50, 50);
