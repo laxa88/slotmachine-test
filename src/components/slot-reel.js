@@ -17,6 +17,9 @@ export default class SlotReel {
   constructor(game, reelData, centerX, centerY) {
     this.state = C.REEL_IDLE;
 
+    // to be assigned from parent slot machine
+    this.emitter = null;
+
     this.game = game;
     this.centerX = centerX;
     this.centerY = centerY;
@@ -47,21 +50,6 @@ export default class SlotReel {
     // Set bounds where icons will be wrapped.
     this.upperBound = startY;
     this.bottomBound = currY;
-
-    // Add emitter for particle effects
-    this.emitter = this.game.add.emitter(this.centerX, this.centerY, 10);
-    this.emitter.makeParticles(C.SPR_SHEET, C.SPR_STAR);
-    this.emitter.particleDrag = new Phaser.Point(50, 50);
-    this.emitter.setXSpeed(-300, 300);
-    this.emitter.setYSpeed(-300, 300);
-    this.emitter.setAlpha(1.0, 0.0, 2000);
-    this.emitter.gravity = 800;
-    this.emitter.setScale(
-      1.0, 0.0,
-      1.0, 0.0,
-      2000,
-      Phaser.Easing.Circular.In
-    );
   }
 
   /**
@@ -99,7 +87,9 @@ export default class SlotReel {
   startSpin() {
     this.state = C.REEL_SPINNING;
 
-    this.emitter.start(true, 1000, null, 5);
+    if (this.emitter) {
+      this.emitter.start(true, 1000, null, 5);
+    }
   }
 
   /**
@@ -174,5 +164,24 @@ export default class SlotReel {
       const iconData = this.getNextIcon();
       icon.setSprite(iconData.key);
     }
+  }
+
+  /**
+   * addEmitter
+   */
+  addEmitter() {
+    this.emitter = this.game.add.emitter(this.centerX, this.centerY, 10);
+    this.emitter.makeParticles(C.SPR_SHEET, C.SPR_STAR);
+    this.emitter.particleDrag = new Phaser.Point(50, 50);
+    this.emitter.setXSpeed(-300, 300);
+    this.emitter.setYSpeed(-300, 300);
+    this.emitter.setAlpha(1.0, 0.0, 2000);
+    this.emitter.gravity = 800;
+    this.emitter.setScale(
+      1.0, 0.0,
+      1.0, 0.0,
+      2000,
+      Phaser.Easing.Circular.In
+    );
   }
 }

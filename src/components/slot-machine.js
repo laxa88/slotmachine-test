@@ -83,6 +83,11 @@ export default class SlotMachine {
     this.game.scale.refresh();
 
     this.game.scale.setResizeCallback(this.onScreenResize, this);
+
+    // Add emitter for particle effects on top layer
+    for (let i = 0; i < this.reels.length; i++) {
+      this.reels[i].addEmitter();
+    }
   }
 
   /**
