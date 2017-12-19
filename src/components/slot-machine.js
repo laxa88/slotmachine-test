@@ -111,7 +111,10 @@ export default class SlotMachine {
     });
 
     this.state = C.MACHINE_SPINNING;
-    this.spinningReelCount = this.reels.length;
+
+    // Counters for when all reels are stopping/stopped
+    this.stoppingReelCount = this.reels.length;
+    this.stoppedReelCount = this.reels.length;
 
     // initial zoom in. camera will further zoom in on each
     // reel stop, then finally zoom out to original scale once
@@ -124,6 +127,12 @@ export default class SlotMachine {
    * onReelStopping
    */
   onReelStopping() {
+    this.stoppingReelCount--;
+
+    if (this.stoppingReelCount === 0) {
+      this.sfxReelSpin.stop();
+    }
+
     // For each reel that stops, we zoom in closer to
     // the center, emphasising the result!
     const delta = (C.REEL_ZOOM_END - 1.0) / this.reelCount;
@@ -139,10 +148,9 @@ export default class SlotMachine {
    * onReelStopped
    */
   onReelStopped() {
-    this.spinningReelCount--;
+    this.stoppedReelCount--;
 
-    if (this.spinningReelCount === 0) {
-      this.sfxReelSpin.stop();
+    if (this.stoppedReelCount === 0) {
       this.sfxKaching.play();
 
       // revert to original zoom once done spinning
