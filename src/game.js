@@ -41,6 +41,7 @@ export default class Game {
     );
 
     // TODO load slot machine foreground image
+    this.game.load.image(C.SPR_FG, 'assets/fg.png');
 
     // Load audio files
     this.game.load.audio('bgm', 'assets/bgm-ogg.ogg');
