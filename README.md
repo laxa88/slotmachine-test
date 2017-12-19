@@ -29,3 +29,7 @@ Optional features:
 - [Icons: 8-bit social icon pack](https://www.icondeposit.com/theicondeposit:29) by Neorelic
 - [Particle: 8-bit star image](https://github.com/photonstorm/phaser/blob/master/v2/resources/tutorials/02%20Making%20your%20first%20game/assets/star.png) from PhaserJS tutorial assets folder
 - BGM, SFX: my voice
+
+# Known issues
+
+- Tests are not included. Briefly tried to run tests but hit some setup issues involving Phaser (since we used CDN source), and jest requires additional NPM libraries such as `canvas` which I am not familiar with yet.
