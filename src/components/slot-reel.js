@@ -68,24 +68,6 @@ export default class SlotReel {
    * update
    */
   update() {
-    /*
-    if state is SPINNING
-      animate symbol movement downward
-      if Symbol is below bottom bound
-        wrap Symbol to top
-        nextSymbolIndex += 1 (wrap by array length)
-        Symbol.Symbol.setSprite()
-    if state is STOPPING
-      animate easing to center position
-      on reach center
-        particle: 1-time burst stars
-        audio: stop reeling sfx
-        Machine.reelStopped()
-        set state to IDLE
-    if state is IDLE
-      do nothing
-    */
-
     switch (this.state) {
       case C.REEL_SPINNING: {
         for (let i = 0; i < C.REEL_LENGTH; i++) {
@@ -99,13 +81,13 @@ export default class SlotReel {
       break;
 
       case C.REEL_STOPPING: {
-
+        // Reserved for future use
       }
       break;
 
       default:
       case C.REEL_IDLE: {
-
+        // Reserved for future use
       }
       break;
     }
@@ -124,12 +106,6 @@ export default class SlotReel {
    * stopSpin
    */
   stopSpin() {
-    /*
-    set state to STOPPING
-    check Symbol at index 3 (center of reels)
-      if position is above center, ease to center pos
-      else, ease Symbol at index 2 to center pos
-    */
     this.state = C.REEL_STOPPING;
 
     this.iconTweeningCount = C.REEL_LENGTH;
