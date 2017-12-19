@@ -16,6 +16,7 @@
 ## SlotReel
 
 - Handles reel spinning logic.
+- Handles particle emitting logic.
 - Fires reel stop event.
 
 ## ReelIcon

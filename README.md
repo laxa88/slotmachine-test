@@ -19,7 +19,6 @@ Optional features:
 
 # Getting started
 
-- [Requisites](./docs/requisites.md)
 - [Developer setup](./docs/dev-guide.md)
 - [Component overview](./docs/components.md)
 
