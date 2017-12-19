@@ -118,8 +118,6 @@ export default class SlotReel {
     this.state = C.REEL_SPINNING;
 
     this.emitter.start(true, 1000, null, 5);
-
-    // TODO add audio
   }
 
   /**
