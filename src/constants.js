@@ -35,3 +35,9 @@ export const ICON_DATA = [
   {key: 'vimeo.png', value: 11},
   {key: 'youtube.png', value: 12},
 ];
+
+export const BGM_DEFAULT = 'bgm';
+export const SFX_DING = 'ding';
+export const SFX_KACHING = 'kaching';
+export const SFX_REEL_SPIN = 'reel-spin';
+export const SFX_THUMP = 'thump';

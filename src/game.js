@@ -44,11 +44,11 @@ export default class Game {
     this.game.load.image(C.SPR_FG, 'assets/fg.png');
 
     // Load audio files
-    this.game.load.audio('bgm', 'assets/bgm-ogg.ogg');
-    this.game.load.audio('ding', 'assets/ding-ogg.ogg');
-    this.game.load.audio('kaching', 'assets/kaching-ogg.ogg');
-    this.game.load.audio('reel-spin', 'assets/reel-spin-ogg.ogg');
-    this.game.load.audio('thump', 'assets/thump-ogg.ogg');
+    this.game.load.audio(C.BGM_DEFAULT, 'assets/bgm-ogg.ogg');
+    this.game.load.audio(C.SFX_DING, 'assets/ding-ogg.ogg');
+    this.game.load.audio(C.SFX_KACHING, 'assets/kaching-ogg.ogg');
+    this.game.load.audio(C.SFX_REEL_SPIN, 'assets/reel-spin-ogg.ogg');
+    this.game.load.audio(C.SFX_THUMP, 'assets/thump-ogg.ogg');
   }
 
   /**

@@ -19,14 +19,14 @@ export default class SlotMachine {
     this.state = C.MACHINE_IDLE;
 
     // Init audio
-    this.bgm = this.game.add.audio('bgm');
+    this.bgm = this.game.add.audio(C.BGM_DEFAULT);
     this.bgm.loop = true;
     this.bgm.play();
 
-    this.sfxDing = this.game.add.audio('ding');
-    this.sfxKaching = this.game.add.audio('kaching');
-    this.sfxReelSpin = this.game.add.audio('reel-spin');
-    this.sfxThump = this.game.add.audio('thump');
+    this.sfxDing = this.game.add.audio(C.SFX_DING);
+    this.sfxKaching = this.game.add.audio(C.SFX_KACHING);
+    this.sfxReelSpin = this.game.add.audio(C.SFX_REEL_SPIN);
+    this.sfxThump = this.game.add.audio(C.SFX_THUMP);
 
     // Based on reelCount, equally space them out from center.
     const reelX = this.game.width / 2;
