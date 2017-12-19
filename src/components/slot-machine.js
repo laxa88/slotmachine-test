@@ -65,7 +65,14 @@ export default class SlotMachine {
     this.game.onReelStopping.add(this.onReelStopping, this);
     this.game.onReelStopped.add(this.onReelStopped, this);
 
-    // Add resize method
+    // Quick and dirty responsive settings, referenced from:
+    // http://www.html5gamedevs.com/topic/19253-how-to-make-a-phaser-game-responsive/
+    this.game.scale.scaleMode = Phaser.ScaleManager.aspectRatio;
+    this.game.scale.pageAlignVertically = true;
+    this.game.scale.pageAlignHorizontally = true;
+    this.game.scale.setShowAll();
+    this.game.scale.refresh();
+
     this.game.scale.setResizeCallback(this.onScreenResize, this);
   }
 
@@ -95,7 +102,6 @@ export default class SlotMachine {
 
     this.reels.forEach((reel) => {
       reel.startSpin();
-      // TODO: play button click audio
 
       this.game.time.events.add(nextStopTime, () => {
         reel.stopSpin();
@@ -153,10 +159,9 @@ export default class SlotMachine {
    * onScreenResize
    */
   onScreenResize() {
-    /*
-    get screen ratio
-    compare against intended resolution ()
-    */
+    // Every time the screen changes size, refresh Phaser's scaling
+    this.game.scale.setShowAll();
+    this.game.scale.refresh();
   }
 
   /**

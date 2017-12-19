@@ -11,8 +11,8 @@ export default class Game {
   constructor() {
     // Init a Phaser game and link the lifecycle methods.
     this.game = new Phaser.Game(
-      window.innerWidth,
-      window.innerHeight,
+      C.MACHINE_BASE_W,
+      C.MACHINE_BASE_H,
       Phaser.AUTO,
       'game',
       {

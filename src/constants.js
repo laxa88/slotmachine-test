@@ -1,5 +1,7 @@
 export const ICON_SIZE = 32;
 
+export const MACHINE_BASE_W = 400;
+export const MACHINE_BASE_H = 400;
 export const MACHINE_IDLE = 'MACHINE_IDLE';
 export const MACHINE_SPINNING = 'MACHINE_SPINNING';
 
