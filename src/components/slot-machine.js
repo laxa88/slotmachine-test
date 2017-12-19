@@ -50,13 +50,22 @@ export default class SlotMachine {
     }
 
     // Cover the reels with a foreground image to hide the reels' edges.
-    this.foreground = this.game.add.image(0, 0, C.SPR_FOREGROUND);
+    this.foreground = this.game.add.image(0, 0, C.SPR_FG);
 
     // Finally, add a button that allows the reels to be spun.
-    const buttonX = this.game.width - 32;
-    const buttonY = this.game.height - 32;
-    this.button = this.game.add.button(buttonX, buttonY, C.SPR_BUTTON);
-    this.button.onInputUp.add(this.startSpin, this);
+    const buttonX = this.game.width - 64;
+    const buttonY = this.game.height - 64;
+    this.button = this.game.add.button(
+      buttonX,
+      buttonY,
+      C.SPR_SHEET,
+      this.startSpin,
+      this,
+      C.SPR_BUTTON_UP,
+      C.SPR_BUTTON_UP,
+      C.SPR_BUTTON_DOWN,
+      C.SPR_BUTTON_UP
+    );
 
     // Add event to listen for reel stoppage
     this.game.onReelStopping = new Phaser.Signal();

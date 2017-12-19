@@ -50,7 +50,7 @@ export default class SlotReel {
 
     // Add emitter for particle effects
     this.emitter = this.game.add.emitter(this.centerX, this.centerY, 10);
-    this.emitter.makeParticles('star');
+    this.emitter.makeParticles(C.SPR_SHEET, C.SPR_STAR);
     this.emitter.particleDrag = new Phaser.Point(50, 50);
     this.emitter.setXSpeed(-300, 300);
     this.emitter.setYSpeed(-300, 300);

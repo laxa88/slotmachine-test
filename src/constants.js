@@ -15,9 +15,11 @@ export const REEL_IDLE = 'REEL_IDLE';
 export const REEL_SPINNING = 'REEL_SPINNING';
 export const REEL_STOPPING = 'REEL_STOPPING';
 
-export const SPR_FOREGROUND = 'slotmachine-foreground';
-export const SPR_BUTTON = 'button';
+export const SPR_FG = 'fg';
 export const SPR_SHEET = 'icons';
+export const SPR_BUTTON_UP = 'green_button07.png';
+export const SPR_BUTTON_DOWN = 'green_button08.png';
+export const SPR_STAR = 'star.png';
 
 export const ICON_DATA = [
   {key: 'behance.png', value: 1},

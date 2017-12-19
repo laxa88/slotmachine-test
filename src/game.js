@@ -40,11 +40,7 @@ export default class Game {
       Phaser.Loader.TEXTURE_ATLAS_JSON_HASH
     );
 
-    // TODO load reel background image
     // TODO load slot machine foreground image
-
-    // For particle effects
-    this.game.load.image('star', 'assets/star.png');
 
     // Load audio files
     this.game.load.audio('bgm', 'assets/bgm-ogg.ogg');
