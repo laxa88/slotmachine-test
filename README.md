@@ -22,3 +22,11 @@ Optional features:
 - [Requisites](./docs/requisites.md)
 - [Developer setup](./docs/dev-guide.md)
 - [Component overview](./docs/components.md)
+
+# Credits
+
+- [Buttons: Kenney's UI Pack](https://opengameart.org/content/ui-pack)
+- [Responsive design: "How to make PhaserJS game responsive" thread](http://www.html5gamedevs.com/topic/19253-how-to-make-a-phaser-game-responsive/)
+- [Icons: 8-bit social icon pack](https://www.icondeposit.com/theicondeposit:29) by Neorelic
+- [Particle: 8-bit star image](https://github.com/photonstorm/phaser/blob/master/v2/resources/tutorials/02%20Making%20your%20first%20game/assets/star.png) from PhaserJS tutorial assets folder
+- BGM, SFX: my voice
