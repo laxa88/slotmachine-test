@@ -211,11 +211,11 @@ export default class WheelMachine {
       this.sfxKaching.play();
 
       // revert to original zoom once done spinning
-      this.tweenZoom(
-        C.REEL_ZOOM_START,
-        Phaser.Easing.Exponential.Out,
-        this.centerPoint
-      );
+      // this.tweenZoom(
+      //   C.REEL_ZOOM_START,
+      //   Phaser.Easing.Exponential.Out,
+      //   this.centerPoint
+      // );
 
       // allow respin once animation is complete
       this.game.time.events.add(C.REEL_ZOOM_SPEED, () => {
