@@ -86,6 +86,14 @@ export default class WheelMachine {
       C.SPR_BUTTON_DOWN,
       C.SPR_BUTTON_UP
     );
+
+
+    // Add event to listen for reel stoppage
+    this.game.onReelStopping = new Phaser.Signal();
+    this.game.onReelStopped = new Phaser.Signal();
+
+    this.game.onReelStopping.add(this.onReelStopping, this);
+    this.game.onReelStopped.add(this.onReelStopped, this);
   }
 
   /**
@@ -120,33 +128,88 @@ export default class WheelMachine {
    * startSpin
    */
   startSpin() {
-    if (this.state != C.MACHINE_IDLE) {
-      return;
+    switch (this.state) {
+      case C.MACHINE_IDLE: {
+        this.game.camera.shake(0.03, 200);
+        this.game.camera.flash(0xffffff, 500, true);
+
+        this.sfxDing.play();
+        this.sfxReelSpin.loop = true;
+        this.sfxReelSpin.play();
+
+        this.wheels.forEach((wheel) => {
+          wheel.startSpin();
+        });
+
+        // Keep track of which wheel to stop next, each
+        // time the player clicks the spin button again.
+        this.nextWheelStopIndex = this.wheels.length-1;
+        this.stoppedReelCount = this.wheels.length;
+
+
+        this.wheelZoom = C.REEL_ZOOM_START;
+        this.tweenZoom(
+          this.wheelZoom,
+          new Phaser.Point(),
+          Phaser.Easing.Elastic.Out
+        );
+
+        this.state = C.MACHINE_SPINNING;
+      }
+      break;
+
+      case C.MACHINE_SPINNING: {
+        this.wheels[this.nextWheelStopIndex].stopSpin();
+      }
+      break;
+
+      case C.MACHINE_STOPPING:
+      default: {
+      }
+      break;
+    }
+  }
+
+  /**
+   * onReelStopping
+   */
+  onReelStopping() {
+    this.nextWheelStopIndex--;
+
+    if (this.nextWheelStopIndex === -1) {
+      this.sfxReelSpin.stop();
+
+      this.state = C.MACHINE_STOPPING;
     }
 
-    this.game.camera.shake(0.03, 200);
-    this.game.camera.flash(0xffffff, 500, true);
+    // For each reel that stops, we zoom in closer to
+    // the center, emphasising the result!
+    const delta = (C.REEL_ZOOM_END - 1.0) / this.reelCount;
+    this.reelZoom += delta;
+    // this.tweenZoom(this.reelZoom, Phaser.Easing.Elastic.Out);
 
-    this.sfxDing.play();
-    this.sfxReelSpin.loop = true;
-    this.sfxReelSpin.play();
+    this.game.camera.shake(0.02, 200);
 
-    this.wheels.forEach((wheel) => {
-      wheel.startSpin();
-    });
+    this.sfxThump.play();
+  }
 
-    this.state = C.MACHINE_SPINNING;
+  /**
+   * onReelStopped
+   */
+  onReelStopped() {
+    this.stoppedReelCount--;
 
-    // Keep track of which wheel to stop next, each
-    // time the player clicks the spin button again.
-    this.nextWheelStopIndex = 0;
+    if (this.stoppedReelCount === 0) {
+      this.sfxKaching.play();
 
-    this.wheelZoom = C.REEL_ZOOM_START;
-    this.tweenZoom(
-      this.wheelZoom,
-      new Phaser.Point(),
-      Phaser.Easing.Elastic.Out
-    );
+      // revert to original zoom once done spinning
+      this.tweenZoom(C.REEL_ZOOM_START, Phaser.Easing.Exponential.Out);
+
+      // allow respin once animation is complete
+      this.game.time.events.add(C.REEL_ZOOM_SPEED, () => {
+        this.state = C.MACHINE_IDLE;
+      });
+    }
   }
 
   /**
@@ -157,13 +220,13 @@ export default class WheelMachine {
    */
   tweenZoom(scale, offset, ease) {
     for (let i = 0; i < this.wheels.length; i++) {
-      this.game.add.tween(this.wheels[i].icons)
-        .to(
-          {centerX: x, centerY: y},
-          C.REEL_ZOOM_SPEED,
-          ease
-        )
-        .start();
+      // this.game.add.tween(this.wheels[i].icons)
+      //   .to(
+      //     {centerX: x, centerY: y},
+      //     C.REEL_ZOOM_SPEED,
+      //     ease
+      //   )
+      //   .start();
 
       this.game.add.tween(this.wheels[i].icons.scale)
         .to(

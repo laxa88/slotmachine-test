@@ -6,6 +6,7 @@ export const MACHINE_BASE_W = 480;
 export const MACHINE_BASE_H = 480;
 export const MACHINE_IDLE = 'MACHINE_IDLE';
 export const MACHINE_SPINNING = 'MACHINE_SPINNING';
+export const MACHINE_STOPPING = 'MACHINE_STOPPING';
 
 export const REEL_LENGTH = 5;
 export const REEL_SPEED = 6; // angles per update

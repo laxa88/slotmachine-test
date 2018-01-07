@@ -73,6 +73,40 @@ export default class Wheel {
   }
 
   /**
+   * stopSpin
+   */
+  stopSpin() {
+    this.state = C.REEL_STOPPING;
+
+    const angleDelta = 360 / this.iconCount;
+    const modAngle = this.currRotation % angleDelta;
+    let stopAngle = this.currRotation;
+
+    if (modAngle > angleDelta / 2) {
+      const diff = angleDelta - modAngle;
+      stopAngle = this.currRotation + diff;
+    } else {
+      stopAngle = this.currRotation - modAngle;
+    }
+
+    const tween = this.game.add.tween(this);
+
+    tween.onComplete.add(() => {
+      this.game.onReelStopped.dispatch(this);
+    });
+
+    tween
+        .to(
+          {currRotation: stopAngle},
+          C.REEL_STOP_DELAY,
+          Phaser.Easing.Elastic.Out
+        )
+        .start();
+
+    this.game.onReelStopping.dispatch(this);
+  }
+
+  /**
    * updateSpritePosition
    * @param {Phaser.Sprite} sprite
    */
@@ -95,10 +129,11 @@ export default class Wheel {
   update() {
     if (this.state === C.REEL_SPINNING) {
       this.currRotation += C.REEL_SPEED;
-
-      this.icons.forEach((icon) => {
-        this.updateSpritePosition(icon);
-      });
+      this.currRotation %= 360;
     }
+
+    this.icons.forEach((icon) => {
+      this.updateSpritePosition(icon);
+    });
   }
 }
