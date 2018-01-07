@@ -11,11 +11,17 @@ export default class Wheel {
    * @param {number} iconCount
    * @param {Phaser.Point} centerPoint
    * @param {number} radius
+   * @param {number} scale
    */
-  constructor(game, iconCount, centerPoint, radius) {
+  constructor(game, iconCount, centerPoint, radius, scale) {
     this.game = game;
-    this.icons = this.game.add.group();
+    this.iconCount = iconCount;
+    this.centerPoint = centerPoint;
     this.radius = radius;
+    this.scale = scale;
+
+    // this.currRotation = 0;
+    this.icons = this.game.add.group();
 
     const angleDelta = 360 / iconCount;
     let currAngle = 0;
@@ -40,6 +46,7 @@ export default class Wheel {
       );
 
       sprite.anchor = new Phaser.Point(0.5, 0.5);
+      sprite.scale = new Phaser.Point(this.scale, this.scale);
       sprite.rotation = H.toRadians(currAngle);
 
       this.icons.add(sprite);
