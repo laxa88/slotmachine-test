@@ -1,3 +1,7 @@
+# Release
+
+- Run `npm run build` for final release.
+
 # Developer setup
 
 - Clone the project from [the repo](https://github.com/laxa88/slotmachine-test) to your local machine
