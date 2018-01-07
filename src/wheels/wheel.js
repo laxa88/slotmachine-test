@@ -23,7 +23,11 @@ export default class Wheel {
 
     this.state = C.REEL_IDLE;
     this.currRotation = 0;
+
+
     this.icons = this.game.add.group();
+    this.icons.centerX = centerPoint.x;
+    this.icons.centerY = centerPoint.y;
 
 
     const angleDelta = 360 / iconCount;
@@ -33,7 +37,7 @@ export default class Wheel {
       const spritePos = H.getCircumferencePosition(
         currAngle,
         radius,
-        centerPoint
+        new Phaser.Point()
       );
 
       const frameIndex = Math.floor(Math.random() * C.ICON_DATA.length);
@@ -74,7 +78,7 @@ export default class Wheel {
     const spritePos = H.getCircumferencePosition(
       currAngle,
       this.radius,
-      this.centerPoint
+      new Phaser.Point()
     );
 
     sprite.position = spritePos;

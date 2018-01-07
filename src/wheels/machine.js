@@ -150,27 +150,15 @@ export default class WheelMachine {
       this.wheels[i].update();
     }
 
-    const scale = this.game.camera.scale;
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-      scale.add(0.1, 0.1);
+      for (let i = 0; i < this.wheels.length; i++) {
+        this.wheels[i].icons.scale.add(0.1, 0.1);
+      }
     }
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-      scale.subtract(0.1, 0.1);
+      for (let i = 0; i < this.wheels.length; i++) {
+        this.wheels[i].icons.scale.subtract(0.1, 0.1);
+      }
     }
-    const centerX = this.game.width / 2;
-    const centerY = this.game.height / 2;
-    const offsetX = (scale.x - 1.0) * centerX;
-    const offsetY = (scale.y - 1.0) * centerY;
-    this.game.camera.setPosition(offsetX, offsetY);
-    this.game.camera.scale.set(scale.x, scale.y);
-
-    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-    //   for (let i = 0; i < this.wheels.length; i++) {
-    //   }
-    // }
-    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-    //   for (let i = 0; i < this.wheels.length; i++) {
-    //   }
-    // }
   }
 }
