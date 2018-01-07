@@ -27,8 +27,6 @@ export default class Wheel {
     let currAngle = 0;
 
     for (let i = 0; i < iconCount; i++) {
-      console.log(i, currAngle);
-
       const spritePos = H.getCircumferencePosition(
         currAngle,
         radius,
