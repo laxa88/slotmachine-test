@@ -124,6 +124,9 @@ export default class WheelMachine {
       return;
     }
 
+    this.game.camera.shake(0.03, 200);
+    this.game.camera.flash(0xffffff, 500, true);
+
     this.sfxDing.play();
     this.sfxReelSpin.loop = true;
     this.sfxReelSpin.play();
