@@ -15,6 +15,22 @@ export default class WheelMachine {
   constructor(game, wheelCount, iconCount) {
     this.game = game;
 
+
+    this.state = C.MACHINE_IDLE;
+
+
+    // Init audio
+    this.bgm = this.game.add.audio(C.BGM_DEFAULT);
+    this.bgm.loop = true;
+    this.bgm.play();
+
+    this.sfxDing = this.game.add.audio(C.SFX_DING);
+    this.sfxKaching = this.game.add.audio(C.SFX_KACHING);
+    this.sfxReelSpin = this.game.add.audio(C.SFX_REEL_SPIN);
+    this.sfxThump = this.game.add.audio(C.SFX_THUMP);
+
+
+    // Create wheels
     this.wheels = [];
 
     this.centerPoint = new Phaser.Point(
@@ -45,6 +61,7 @@ export default class WheelMachine {
       currScale += scaleDelta;
     }
 
+
     // Quick and dirty responsive settings, referenced from:
     // http://www.html5gamedevs.com/topic/19253-how-to-make-a-phaser-game-responsive/
     this.game.scale.scaleMode = Phaser.ScaleManager.aspectRatio;
@@ -53,6 +70,22 @@ export default class WheelMachine {
     this.game.scale.setShowAll();
     this.game.scale.refresh();
     this.game.scale.setResizeCallback(this.onScreenResize, this);
+
+
+    // Add a button that allows the reels to be spun.
+    const buttonX = this.game.width - 64;
+    const buttonY = this.game.height - 64;
+    this.button = this.game.add.button(
+      buttonX,
+      buttonY,
+      C.SPR_SHEET,
+      this.startSpin,
+      this,
+      C.SPR_BUTTON_UP,
+      C.SPR_BUTTON_UP,
+      C.SPR_BUTTON_DOWN,
+      C.SPR_BUTTON_UP
+    );
   }
 
   /**
@@ -84,6 +117,29 @@ export default class WheelMachine {
   }
 
   /**
+   * startSpin
+   */
+  startSpin() {
+    if (this.state != C.MACHINE_IDLE) {
+      return;
+    }
+
+    this.sfxDing.play();
+    this.sfxReelSpin.loop = true;
+    this.sfxReelSpin.play();
+
+    this.wheels.forEach((wheel) => {
+      wheel.startSpin();
+    });
+
+    this.state = C.MACHINE_SPINNING;
+
+    // Keep track of which wheel to stop next, each
+    // time the player clicks the spin button again.
+    this.nextWheelStopIndex = 0;
+  }
+
+  /**
    * update
    */
   update() {
@@ -105,15 +161,13 @@ export default class WheelMachine {
     this.game.camera.setPosition(offsetX, offsetY);
     this.game.camera.scale.set(scale.x, scale.y);
 
-    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      for (let i = 0; i < this.wheels.length; i++) {
-        // this.wheels[i].addRotation(1);
-      }
-    }
-    if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      for (let i = 0; i < this.wheels.length; i++) {
-        // this.wheels[i].addRotation(-1);
-      }
-    }
+    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+    //   for (let i = 0; i < this.wheels.length; i++) {
+    //   }
+    // }
+    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+    //   for (let i = 0; i < this.wheels.length; i++) {
+    //   }
+    // }
   }
 }

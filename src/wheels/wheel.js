@@ -20,8 +20,11 @@ export default class Wheel {
     this.radius = radius;
     this.scale = scale;
 
-    // this.currRotation = 0;
+
+    this.state = C.REEL_IDLE;
+    this.currRotation = 0;
     this.icons = this.game.add.group();
+
 
     const angleDelta = 360 / iconCount;
     let currAngle = 0;
@@ -43,6 +46,7 @@ export default class Wheel {
         frame
       );
 
+      sprite.baseRotationDegrees = currAngle;
       sprite.anchor = new Phaser.Point(0.5, 0.5);
       sprite.scale = new Phaser.Point(this.scale, this.scale);
       sprite.rotation = H.toRadians(currAngle);
@@ -54,9 +58,39 @@ export default class Wheel {
   }
 
   /**
+   * startSpin
+   */
+  startSpin() {
+    this.state = C.REEL_SPINNING;
+  }
+
+  /**
+   * updateSpritePosition
+   * @param {Phaser.Sprite} sprite
+   */
+  updateSpritePosition(sprite) {
+    const currAngle = sprite.baseRotationDegrees + this.currRotation;
+
+    const spritePos = H.getCircumferencePosition(
+      currAngle,
+      this.radius,
+      this.centerPoint
+    );
+
+    sprite.position = spritePos;
+    sprite.rotation = H.toRadians(currAngle);
+  }
+
+  /**
    * update
    */
   update() {
+    if (this.state === C.REEL_SPINNING) {
+      this.currRotation += C.REEL_SPEED;
 
+      this.icons.forEach((icon) => {
+        this.updateSpritePosition(icon);
+      });
+    }
   }
 }
