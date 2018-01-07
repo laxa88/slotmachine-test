@@ -1,3 +1,5 @@
+export const WHEEL_COUNT = 5;
+export const ICON_COUNT = 12;
 export const ICON_SIZE = 32;
 
 export const MACHINE_BASE_W = 400;

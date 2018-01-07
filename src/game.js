@@ -1,4 +1,5 @@
-import SlotMachine from './components/slot-machine';
+// import SlotMachine from './slots/slot-machine';
+import WheelMachine from './wheels/wheel-machine';
 import * as C from './constants';
 
 /**
@@ -26,7 +27,7 @@ export default class Game {
     this.game.antialias = false;
 
     // declare the variable here, to be initialised in create()
-    this.slotMachine = null;
+    this.machine = null;
   }
 
   /**
@@ -55,13 +56,14 @@ export default class Game {
    * For initialising game objects and variables.
    */
   create() {
-    this.slotMachine = new SlotMachine(this.game, 5, 10);
+    // this.machine = new SlotMachine(this.game, 5, 10);
+    this.machine = new WheelMachine(this.game, C.WHEEL_COUNT, C.ICON_COUNT);
   }
 
   /**
    * Update method.
    */
   update() {
-    this.slotMachine.update();
+    this.machine.update();
   }
 }
