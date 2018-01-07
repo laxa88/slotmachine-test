@@ -1,6 +1,9 @@
 export const WHEEL_COUNT = 5;
 export const ICON_COUNT = 24;
 export const ICON_SIZE = 32;
+export const START_RADIUS = 64;
+export const START_SCALE = 0.5;
+export const SCALE_DELTA = 0.2;
 
 export const MACHINE_BASE_W = 480;
 export const MACHINE_BASE_H = 480;
@@ -11,7 +14,7 @@ export const MACHINE_STOPPING = 'MACHINE_STOPPING';
 export const REEL_LENGTH = 5;
 export const REEL_SPEED = 6; // angles per update
 export const REEL_ZOOM_START = 1.0;
-export const REEL_ZOOM_END = 1.8;
+export const REEL_ZOOM_END = 3.0;
 export const REEL_ZOOM_SPEED = 500;
 export const REEL_STOP_DELAY = 500;
 export const REEL_IDLE = 'REEL_IDLE';

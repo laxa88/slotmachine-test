@@ -14,6 +14,8 @@ export default class WheelMachine {
    */
   constructor(game, wheelCount, iconCount) {
     this.game = game;
+    this.wheelCount = wheelCount;
+    this.iconCount = iconCount;
 
 
     this.state = C.MACHINE_IDLE;
@@ -38,9 +40,9 @@ export default class WheelMachine {
       this.game.height / 2
     );
 
-    let currRadius = 64;
-    let currScale = 0.5;
-    const scaleDelta = 0.2;
+    let currRadius = C.START_RADIUS;
+    let currScale = C.START_SCALE;
+    const scaleDelta = C.SCALE_DELTA;
 
     for (let i = 0; i < wheelCount; i++) {
       this.wheels.push(new Wheel(
@@ -144,14 +146,14 @@ export default class WheelMachine {
         // Keep track of which wheel to stop next, each
         // time the player clicks the spin button again.
         this.nextWheelStopIndex = this.wheels.length-1;
-        this.stoppedReelCount = this.wheels.length;
+        this.stoppedWheelCount = this.wheels.length;
 
 
         this.wheelZoom = C.REEL_ZOOM_START;
         this.tweenZoom(
           this.wheelZoom,
-          new Phaser.Point(),
-          Phaser.Easing.Elastic.Out
+          Phaser.Easing.Elastic.Out,
+          this.centerPoint
         );
 
         this.state = C.MACHINE_SPINNING;
@@ -178,15 +180,21 @@ export default class WheelMachine {
 
     if (this.nextWheelStopIndex === -1) {
       this.sfxReelSpin.stop();
-
       this.state = C.MACHINE_STOPPING;
     }
 
     // For each reel that stops, we zoom in closer to
     // the center, emphasising the result!
-    const delta = (C.REEL_ZOOM_END - 1.0) / this.reelCount;
-    this.reelZoom += delta;
-    // this.tweenZoom(this.reelZoom, Phaser.Easing.Elastic.Out);
+    const delta = (C.REEL_ZOOM_END - 1.0) / this.wheelCount;
+    this.wheelZoom += delta;
+    this.tweenZoom(
+      this.wheelZoom,
+      Phaser.Easing.Elastic.Out,
+      new Phaser.Point(
+        -142,
+        this.game.height / 2
+      )
+    );
 
     this.game.camera.shake(0.02, 200);
 
@@ -197,13 +205,17 @@ export default class WheelMachine {
    * onReelStopped
    */
   onReelStopped() {
-    this.stoppedReelCount--;
+    this.stoppedWheelCount--;
 
-    if (this.stoppedReelCount === 0) {
+    if (this.stoppedWheelCount === 0) {
       this.sfxKaching.play();
 
       // revert to original zoom once done spinning
-      this.tweenZoom(C.REEL_ZOOM_START, Phaser.Easing.Exponential.Out);
+      this.tweenZoom(
+        C.REEL_ZOOM_START,
+        Phaser.Easing.Exponential.Out,
+        this.centerPoint
+      );
 
       // allow respin once animation is complete
       this.game.time.events.add(C.REEL_ZOOM_SPEED, () => {
@@ -215,18 +227,18 @@ export default class WheelMachine {
   /**
    * Zoom and offset each wheel
    * @param {number} scale
-   * @param {Phaser.Point} offset
    * @param {method} ease
+   * @param {Phaser.Point} offset
    */
-  tweenZoom(scale, offset, ease) {
+  tweenZoom(scale, ease, offset = new Phaser.Point()) {
     for (let i = 0; i < this.wheels.length; i++) {
-      // this.game.add.tween(this.wheels[i].icons)
-      //   .to(
-      //     {centerX: x, centerY: y},
-      //     C.REEL_ZOOM_SPEED,
-      //     ease
-      //   )
-      //   .start();
+      this.game.add.tween(this.wheels[i].icons)
+        .to(
+          {centerX: offset.x, centerY: offset.y},
+          C.REEL_ZOOM_SPEED,
+          ease
+        )
+        .start();
 
       this.game.add.tween(this.wheels[i].icons.scale)
         .to(
