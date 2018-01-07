@@ -9,7 +9,7 @@ export const MACHINE_SPINNING = 'MACHINE_SPINNING';
 
 export const REEL_LENGTH = 5;
 export const REEL_SPEED = 6; // angles per update
-export const REEL_ZOOM_START = 1.4;
+export const REEL_ZOOM_START = 1.0;
 export const REEL_ZOOM_END = 1.8;
 export const REEL_ZOOM_SPEED = 500;
 export const REEL_STOP_DELAY = 500;

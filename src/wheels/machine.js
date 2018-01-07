@@ -140,6 +140,39 @@ export default class WheelMachine {
     // Keep track of which wheel to stop next, each
     // time the player clicks the spin button again.
     this.nextWheelStopIndex = 0;
+
+    this.wheelZoom = C.REEL_ZOOM_START;
+    this.tweenZoom(
+      this.wheelZoom,
+      new Phaser.Point(),
+      Phaser.Easing.Elastic.Out
+    );
+  }
+
+  /**
+   * Zoom and offset each wheel
+   * @param {number} scale
+   * @param {Phaser.Point} offset
+   * @param {method} ease
+   */
+  tweenZoom(scale, offset, ease) {
+    for (let i = 0; i < this.wheels.length; i++) {
+      this.game.add.tween(this.wheels[i].icons)
+        .to(
+          {centerX: x, centerY: y},
+          C.REEL_ZOOM_SPEED,
+          ease
+        )
+        .start();
+
+      this.game.add.tween(this.wheels[i].icons.scale)
+        .to(
+          {x: scale, y: scale},
+          C.REEL_ZOOM_SPEED,
+          ease
+        )
+        .start();
+    }
   }
 
   /**

@@ -25,6 +25,10 @@ export default class Wheel {
     this.currRotation = 0;
 
 
+    // Note: "scale" value above is only used to scale
+    // the icons upon initialisation.
+    // "icons" group scale inits as 1.0, which we will
+    // use to zoom in and out.
     this.icons = this.game.add.group();
     this.icons.centerX = centerPoint.x;
     this.icons.centerY = centerPoint.y;
