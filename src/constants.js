@@ -1,9 +1,9 @@
 export const WHEEL_COUNT = 5;
-export const ICON_COUNT = 12;
+export const ICON_COUNT = 24;
 export const ICON_SIZE = 32;
 
-export const MACHINE_BASE_W = 400;
-export const MACHINE_BASE_H = 400;
+export const MACHINE_BASE_W = 480;
+export const MACHINE_BASE_H = 480;
 export const MACHINE_IDLE = 'MACHINE_IDLE';
 export const MACHINE_SPINNING = 'MACHINE_SPINNING';
 
