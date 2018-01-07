@@ -14,7 +14,7 @@ export default class Wheel {
    */
   constructor(game, iconCount, centerPoint, radius) {
     this.game = game;
-    this.icons = [];
+    this.icons = this.game.add.group();
     this.radius = radius;
 
     const angleDelta = 360 / iconCount;
@@ -33,13 +33,17 @@ export default class Wheel {
       const frame = C.ICON_DATA[frameIndex].key;
 
       const sprite = this.game.add.sprite(
-        spritePos.x - C.ICON_SIZE/2,
-        spritePos.y - C.ICON_SIZE/2,
+        spritePos.x,
+        spritePos.y,
         C.SPR_SHEET,
         frame
       );
 
-      this.icons.push(sprite);
+      sprite.anchor = new Phaser.Point(0.5, 0.5);
+      sprite.rotation = H.toRadians(currAngle);
+
+      this.icons.add(sprite);
+
       currAngle += angleDelta;
     }
   }
