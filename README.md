@@ -33,4 +33,3 @@ Optional features:
 # Known issues
 
 - Tests are not included. Briefly tried to run tests but hit some setup issues involving Phaser (since we used CDN source), and jest requires additional NPM libraries such as `canvas` which I am not familiar with yet.
-- Currently, button can only start reel spinning, but there is no way to manually stop spinning. Had to decide between this or zooming the screen for the visual effects; went with the latter.
