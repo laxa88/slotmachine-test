@@ -1,5 +1,5 @@
 // import SlotMachine from './slots/slot-machine';
-import WheelMachine from './wheels/wheel-machine';
+import WheelMachine from './wheels/machine';
 import * as C from './constants';
 
 /**
